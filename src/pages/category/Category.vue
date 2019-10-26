@@ -1,6 +1,5 @@
 <template>
   <div class="category">
-    <h2>栏目管理</h2>
 		<!-- 按钮 -->
 		<div class="btns">
 			<el-button @click="toAddHandler" type="primary" size="small">添加</el-button>
@@ -22,7 +21,7 @@
       </div>
     </el-dialog>
 		<!-- 表格 -->
-    <el-table :data="categories" size="small" @selection-change="idsChangeHandler">
+    <el-table :data="categories" size="small" @selection-change="idsChangeHandler" v-loading="loading">
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column prop="name" label="栏目名称"></el-table-column>
       <el-table-column prop="num" label="序号"></el-table-column>
@@ -57,7 +56,7 @@ export default {
     this.findAllCategories();
   },
   computed:{
-    ...mapState("category",["categories","visible","title"]),
+    ...mapState("category",["categories","visible","title","loading"]),
     ...mapGetters("category",["countCategories","categoryStatusFilter"])
     // 普通属性
 

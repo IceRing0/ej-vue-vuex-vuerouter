@@ -1,4 +1,5 @@
 import axios from 'axios'
+import qs from 'qs'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
@@ -50,5 +51,35 @@ service.interceptors.response.use(
     return Promise.reject(error)
   }
 )
+
+// 自定义post
+/**
+ * 提交post请求 发送的数据为查询字符串，key=val&key=val
+*/
+export function post(url,data){
+  return service.post(url,qs.stringify(data),{
+    timeout:10000,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    }
+  })
+}
+
+/**
+ * 提交post请求 发送的数据为查询字符串，当参数为数组的时候适用该方法
+ * ids=1&ids=2
+*/
+export function post_array(url,data){
+  return service.post(url,qs.stringify(data,{arrayFormat:"repeat"}),{
+    timeout:10000,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+    }
+  })
+}
+
+
 
 export default service

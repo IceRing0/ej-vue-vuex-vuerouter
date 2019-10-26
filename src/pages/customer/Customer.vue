@@ -1,6 +1,5 @@
 <template>
   <div class="customer">
-    <h2>顾客管理</h2>
 		<!-- 按钮 -->
 		<div class="btns">
 			<el-button @click="toAddHandler" type="primary" size="small">添加</el-button>
@@ -22,12 +21,12 @@
       </div>
     </el-dialog>
 		<!-- 表格 -->
-    <el-table :data="customers" size="small" @selection-change="idsChangeHandler">
+    <el-table :data="customers" size="small" @selection-change="idsChangeHandler" v-loading="loading">
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column prop="realname" label="姓名"></el-table-column>
       <el-table-column prop="telephone" label="手机号"></el-table-column>
       <el-table-column prop="status" label="状态"></el-table-column>
-      <el-table-column label="操作" width="100px" align="center">
+      <el-table-column label="操作" width="150px" align="center">
         <template #default="record">
           <a href="" class="el-icon-delete" @click.prevent = "deleteHandler(record.row.id)"></a> &nbsp;
           <a href="" class="el-icon-edit-outline" @click.prevent = "editHandler(record.row)"></a>&nbsp;
@@ -59,7 +58,7 @@ export default {
     this.findAllCustomers();
   },
   computed:{
-    ...mapState("customer",["customers","visible","title"]),
+    ...mapState("customer",["customers","visible","title","loading"]),
     ...mapGetters("customer",["countCustomers","customerStatusFilter"])
     // 普通属性
 
@@ -71,7 +70,7 @@ export default {
     toDetails(customer){
       // 跳转到顾客详情页面
       this.$router.push({
-        path:'/customerDetail',
+        path:'/customer/details',
         query:{customer},
         // params:{id:1}
       })

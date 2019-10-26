@@ -24,8 +24,8 @@ export default {
   },
   data() {
     return {
-      title: 'Vue Element Admin',
-      logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
+      title: '家政服务平台',
+      logo: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1572085377296&di=b1a6c96445e0e3f369bf10840db62f4d&imgtype=0&src=http%3A%2F%2Favatar.zbjimg.com%2F003%2F42%2F81%2F200x200_avatar_81.jpg%2521big'
     }
   }
 }
@@ -46,7 +46,7 @@ export default {
   width: 100%;
   height: 50px;
   line-height: 50px;
-  background: #2b2f3a;
+  background: #304156;
   text-align: center;
   overflow: hidden;
 

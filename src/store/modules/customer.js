@@ -1,11 +1,13 @@
-// import request from '@/utils/request'
-import {get, post_array,post} from '@/http/axios'
+import request from '@/utils/request'
+import {post,post_array} from '@/utils/request'
+// import {get, post_array,post} from '@/http/axios'
 export default {
   namespaced:true,
   state:{
     visible:false,
     customers:[],
-    title:"添加顾客信息"
+    title:"添加顾客信息",
+    loading:false
   },
   getters:{
     countCustomers:(state)=>{
@@ -35,6 +37,12 @@ export default {
     },
     setTitle(state,title){
       state.title = title;
+    },
+    beginLoading(state){
+      state.loading = true;
+    },
+    endLoading(state){
+      state.loading = false;
     }
   },
   actions:{
@@ -45,15 +53,19 @@ export default {
     },
     // async findAllCustomers({commit,dispatch,getters,state}){
     async findAllCustomers(context){
+      context.commit("beginLoading")
       // 1. 查询所有顾客信息
-      let response = await get("/customer/findAll");
+      let response = await request.get("/customer/findAll");
       //alert(JSON.stringify(response));
       // 2. 将顾客信息设置到state.customers中
       context.commit("refreshCustomers",response.data)
+      setTimeout(()=>{
+        context.commit("endLoading")
+      },1000)
     },
     async deleteCustomerById({dispatch},id){
       // 1. 删除顾客信息
-      let response = await get("/customer/deleteById?id="+id);
+      let response = await request.get("/customer/deleteById?id="+id);
       // 2. 刷新
       dispatch("findAllCustomers")
       // 3. 提示成功
