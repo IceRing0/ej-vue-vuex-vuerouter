@@ -145,6 +145,58 @@ export const asyncRoutes = [
       }
     ]
   },
+  {
+    path: '/address',
+    component: Layout,
+    redirect: '/address/Address',
+    children: [
+      {
+        path: 'address',
+        component: () => import('@/pages/address/Address'),
+        name: 'address',
+        meta: { title: '地址管理', icon: 'address', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/waiter',
+    component: Layout,
+    redirect: '/waiter/Waiter',
+    children: [
+      {
+        path: 'waiter',
+        component: () => import('@/pages/waiter/Waiter'),
+        name: 'waiter',
+        meta: { title: '员工管理', icon: 'waiter', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/comment',
+    component: Layout,
+    redirect: '/comment/Comment',
+    children: [
+      {
+        path: 'comment',
+        component: () => import('@/pages/comment/Comment'),
+        name: 'comment',
+        meta: { title: '评论管理', icon: 'comment', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/order',
+    component: Layout,
+    redirect: '/order/Order',
+    children: [
+      {
+        path: 'order',
+        component: () => import('@/pages/order/Order'),
+        name: 'order',
+        meta: { title: '订单管理', icon: 'order', noCache: true }
+      }
+    ]
+  },
   /*
   {
     path: '/permission',
