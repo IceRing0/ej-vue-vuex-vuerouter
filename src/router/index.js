@@ -80,7 +80,7 @@ export const constantRoutes = [
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+        meta: { title: '主页', icon: 'dashboard', affix: true }
       }
     ]
   },
@@ -116,6 +116,13 @@ export const asyncRoutes = [
         component: () => import('@/pages/customer/Customer'),
         name: 'customer',
         meta: { title: '顾客管理', icon: 'peoples', noCache: true }
+      },
+      {
+        path: 'Details',
+        hidden:true,
+        component: () => import('@/pages/customer/Details'),
+        name: 'details',
+        meta: { title: '顾客详情', icon: 'peoples', noCache: true }
       }
     ]
   },
@@ -194,6 +201,25 @@ export const asyncRoutes = [
         component: () => import('@/pages/order/Order'),
         name: 'order',
         meta: { title: '订单管理', icon: 'order', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/check',
+    component: Layout,
+    meta: { title: '审核管理', icon: 'check', noCache: true },
+    children: [
+      {
+        path: 'WaiterCheck',
+        component: () => import('@/pages/check/WaiterCheck'),
+        name: 'WaiterCheck',
+        meta: { title: '员工审核', icon: 'waiter', noCache: true }
+      },
+      {
+        path: 'WithdrawCheck',
+        component: () => import('@/pages/check/WithdrawCheck'),
+        name: 'WithdrawCheck',
+        meta: { title: '提现审核', icon: '提现', noCache: true }
       }
     ]
   },
