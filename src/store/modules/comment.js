@@ -5,6 +5,7 @@ export default {
   state:{
     visible:false,
     comments:[],
+    orders:[],
     title:"添加评论信息"
   },
   getters:{
@@ -20,7 +21,16 @@ export default {
           return state.comments;
         }
       }
-    }
+    },
+    orderstatusFilter:(state)=>{
+      return function(status){
+        if(status){
+          return state.orders.filter(item=>item.status===status)
+        } else {
+          return state.orders;
+        }
+      }
+    },
   },
   mutations:{
     showModal(state){
@@ -33,24 +43,34 @@ export default {
     refreshcomments(state,comments){
       state.comments = comments;
     },
+    refreshOrders(state,orders){
+      state.orders = orders;
+    },
     setTitle(state,title){
       state.title = title;
     }
   },
   actions:{
     async batchDeletecomments(context,ids){
-      let response = await post("/comment/batchDelete",{ids});
-      context.dispatch("findAllcomments")
+      // 1. 批量删除
+      let response = await post_array("/comment/batchDelete",{ids});
+      // 2. 分发
+      context.dispatch("findAllcomments");
+      // 3. 返回结果
       return response;
     },
-    // async findAllcomments({commit,dispatch,getters,state}){
-    async findAllcomments(context){
+    async findAllComments(context){
       // 1. 查询所有评论信息
       let response = await get("/comment/findAll");
-      console.log(response);
       //alert(JSON.stringify(response));
       // 2. 将评论信息设置到state.comments中
       context.commit("refreshcomments",response.data)
+    },
+    async findAllOrders(context){
+      // 1. ajax查询
+      let response = await get("/order/findAll");
+      // 2. 将查询结果更新到state中
+      context.commit("refreshOrders",response.data);
     },
     async deletecommentById({dispatch},id){
       // 1. 删除评论信息

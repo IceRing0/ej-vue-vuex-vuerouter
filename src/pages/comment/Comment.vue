@@ -36,7 +36,7 @@
         </el-form-item>
         <el-form-item label="所属订单" label-width="100px" prop="orderId">
           <el-select v-model="form.orderId" placeholder="请选择活动区域">
-            <!-- <el-option v-for="item in orders" :label="item.name" :value="item.id"></el-option> -->
+            <el-option v-for="item in orders" :label="item.id" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -76,16 +76,17 @@ export default {
     }
   },
   created(){
-    this.findAllcomments();
+    this.findAllComments();
+    this.findAllOrders();
   },
   computed:{
-    ...mapState("comment",["comments","visible","title"]),
+    ...mapState("comment",["comments","orders","visible","title"]),
     ...mapGetters("comment",["countcomments","commentStatusFilter"])
     // 普通属性
 
   },
   methods:{
-    ...mapActions("comment",["findAllcomments","deletecommentById","saveOrUpdatecomment","batchDeletecomments"]),
+    ...mapActions("comment",["findAllComments","findAllOrders","deletecommentById","saveOrUpdatecomment","batchDeletecomments"]),
     ...mapMutations("comment",["showModal","closeModal","setTitle"]),
     // 普通方法
     toDetails(comment){
