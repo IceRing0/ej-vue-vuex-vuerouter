@@ -21,7 +21,7 @@
       </div>
     </el-dialog>
 		<!-- 表格 -->
-    <el-table :data="categories" size="small" @selection-change="idsChangeHandler" v-loading="loading">
+    <el-table :data="categories.list" size="small" @selection-change="idsChangeHandler" v-loading="loading">
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column prop="name" label="栏目名称"></el-table-column>
       <el-table-column prop="num" label="序号"></el-table-column>
@@ -33,6 +33,16 @@
         </template>
       </el-table-column>
     </el-table>
+    <div style="text-align:center;">
+      <el-pagination
+        @current-change="pageChangeHandler"
+        background
+        layout="prev, pager, next"
+        :page-size="categories.pageSize"
+        :current-page="categories.page+1"
+        :total="categories.total">
+      </el-pagination>
+    </div>
   </div>
 </template>
 <script>
@@ -42,6 +52,10 @@ export default {
     return {
       ids:[],
       form:{},
+      params:{
+        page:0,
+        pageSize:3
+      },
       rules:{
         name: [
           { required: true, message: '请输入栏目名称', trigger: 'blur' },
@@ -53,7 +67,7 @@ export default {
     }
   },
   created(){
-    this.findAllCategories();
+    this.findAllCategories(this.params);
   },
   computed:{
     ...mapState("category",["categories","visible","title","loading"]),
@@ -65,6 +79,10 @@ export default {
     ...mapActions("category",["findAllCategories","deleteCategoryById","saveOrUpdateCategory","batchDeleteCategories"]),
     ...mapMutations("category",["showModal","closeModal","setTitle"]),
     // 普通方法
+    pageChangeHandler(currentPage){
+      this.params.page=currentPage-1;
+      this.findAllCategories(this.params);
+    },
     batchDeleteHandler(){
       this.batchDeleteCategories(this.ids)
       .then((response)=>{

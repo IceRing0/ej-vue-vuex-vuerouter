@@ -52,10 +52,16 @@ export default {
       return response;
     },
     // async findAllCategories({commit,dispatch,getters,state}){
-    async findAllCategories(context){
+    async findAllCategories(context,params){
       context.commit("beginLoading")
+      if(!params){
+        params = {
+          page:0,
+          pageSize:3
+        }
+      }
       // 1. 查询所有栏目信息
-      let response = await request.get("/category/findAll");
+      let response = await post("/category/query",params);
       // 2. 将栏目信息设置到state.categories中
       context.commit("refreshCategories",response.data)
       setTimeout(()=>{
