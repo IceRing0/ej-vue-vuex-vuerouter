@@ -8,13 +8,12 @@
 </template>
 <script>
 export default {
-  data:{
-    return(){
+  data(){
+    return {
       customer:{}
     }
   },
   created(){
-    console.log(this.$route);
     this.customer = this.$route.query.customer;
   },
   methods:{

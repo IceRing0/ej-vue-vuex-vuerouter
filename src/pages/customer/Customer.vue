@@ -1,10 +1,22 @@
 <template>
   <div class="customer">
 		<!-- 按钮 -->
-		<div class="btns">
-			<el-button @click="toAddHandler" type="primary" size="small">添加</el-button>
-			<el-button type="danger" size="small" @click="batchDeleteHandler">批量删除</el-button>
-		</div>
+    <el-row>
+      <el-col :span="12" class="btns">
+        <el-button @click="toAddHandler" type="primary" size="small">添加</el-button>
+        <el-button type="danger" size="small" @click="batchDeleteHandler">批量删除</el-button>
+      </el-col>
+      <el-col :span="12" class="search" style="text-align:right;">
+        <el-form :inline="true" @submit.native.prevent @keyup.native="loadData">
+          <el-form-item>
+            <el-input v-model="params.realname" size="small" placeholder="请输入姓名关键字"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-input v-model="params.telephone" size="small" placeholder="请输入电话"></el-input>
+          </el-form-item>
+        </el-form>
+      </el-col>
+    </el-row>
 		<!-- 表单 -->
     <el-dialog :title="title" :visible.sync="visible" @close="dialogCloseHandler">
       <el-form :model="form" :rules="rules" ref="customerForm">
@@ -21,7 +33,7 @@
       </div>
     </el-dialog>
 		<!-- 表格 -->
-    <el-table :data="customers" size="small" @selection-change="idsChangeHandler" v-loading="loading">
+    <el-table :data="customers.list" size="small" @selection-change="idsChangeHandler" v-loading="loading">
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column prop="realname" label="姓名"></el-table-column>
       <el-table-column prop="telephone" label="手机号"></el-table-column>
@@ -34,6 +46,17 @@
         </template>
       </el-table-column>
     </el-table>
+    <br>
+    <div style="text-align:center;">
+      <el-pagination
+        @current-change="pageChangeHandler"
+        background
+        layout="prev, pager, next"
+        :page-size="customers.pageSize"
+        :current-page="customers.page+1"
+        :total="customers.total">
+      </el-pagination>
+    </div>
   </div>
 </template>
 <script>
@@ -43,6 +66,12 @@ export default {
     return {
       ids:[],
       form:{},
+      params:{
+        page:0,
+        pageSize:3,
+        realname:"",
+        telephone:""
+      },
       rules:{
         realname: [
           { required: true, message: '请输入姓名', trigger: 'blur' },
@@ -55,18 +84,24 @@ export default {
     }
   },
   created(){
-    this.findAllCustomers();
+    this.loadData();
   },
   computed:{
     ...mapState("customer",["customers","visible","title","loading"]),
     ...mapGetters("customer",["countCustomers","customerStatusFilter"])
     // 普通属性
-
   },
   methods:{
     ...mapActions("customer",["findAllCustomers","deleteCustomerById","saveOrUpdateCustomer","batchDeleteCustomers"]),
     ...mapMutations("customer",["showModal","closeModal","setTitle"]),
     // 普通方法
+    loadData(){
+      this.findAllCustomers(this.params)
+    },
+    pageChangeHandler(currentPage){
+      this.params.page=currentPage-1;
+      this.findAllCustomers(this.params);
+    },
     toDetails(customer){
       // 跳转到顾客详情页面
       this.$router.push({

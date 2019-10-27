@@ -52,10 +52,16 @@ export default {
       return response;
     },
     // async findAllCustomers({commit,dispatch,getters,state}){
-    async findAllCustomers(context){
+    async findAllCustomers(context,params){
       context.commit("beginLoading")
+      if(!params){
+        params = {
+          page:0,
+          pageSize:3
+        }
+      }
       // 1. 查询所有顾客信息
-      let response = await request.get("/customer/findAll");
+      let response = await post("/customer/query",params);
       //alert(JSON.stringify(response));
       // 2. 将顾客信息设置到state.customers中
       context.commit("refreshCustomers",response.data)
