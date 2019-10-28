@@ -57,7 +57,7 @@ export default {
       if(!params){
         params = {
           page:0,
-          pageSize:3
+          pageSize:5
         }
       }
       // 1. 查询所有栏目信息
