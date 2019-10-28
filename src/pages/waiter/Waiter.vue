@@ -99,7 +99,7 @@ export default {
       },
       params:{
         page:0,
-        pageSize:2,
+        pageSize:5,
         realname:'',
         telephone:'',
         status:''

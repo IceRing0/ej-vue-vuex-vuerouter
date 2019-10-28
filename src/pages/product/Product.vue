@@ -49,7 +49,7 @@
         </el-form-item>
         <el-form-item label="所属栏目" label-width="100px" prop="categoryId">
           <el-select v-model="form.categoryId" placeholder="请选择所属栏目">
-		        <el-option v-for="item in categories" :label="item.name" :value="item.id" :key="item.id"></el-option>
+		        <el-option v-for="item in categories.list" :label="item.name" :value="item.id" :key="item.id"></el-option>
 		      </el-select>
         </el-form-item>
         <el-form-item label="状态" label-width="100px" prop="status">
@@ -66,6 +66,7 @@
     </el-dialog>
     <!-- 表格 -->
     <!-- {{ids}} -->
+    <!-- {{categories}} -->
     <el-table :data="products.list" @selection-change="idsChangeHandler">
       <el-table-column prop="id" label="产品编号" align="center" width="50" type="selection"></el-table-column>
       <el-table-column prop="name" label="产品名称" align="center"></el-table-column>
